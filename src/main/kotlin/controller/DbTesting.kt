@@ -42,6 +42,7 @@ object SightingTable : Table() {
     val observerID = integer("observer_id").references(ObserverTable.observerID)
     val photo = blob("photo").nullable()
     val watchID = integer("watch_id").references(WatchTable.watchID).nullable()
+    val date = datetime("date").default(DateTime.now())
 }
 
 data class Species(
