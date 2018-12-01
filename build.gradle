@@ -26,7 +26,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'org.jetbrains.exposed:exposed:0.11.2'
     compile "mysql:mysql-connector-java:5.1.46"
-    compile group: 'no.tornado', name: 'fx', version: '1.2.2'
+    compile 'no.tornado:tornadofx:1.7.17'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
