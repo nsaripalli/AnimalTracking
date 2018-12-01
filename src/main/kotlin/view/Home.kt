@@ -3,19 +3,6 @@ package view
 import tornadofx.*
 
 class Home: View("Home") {
-
-    val watchButton = button("View Watches") {
-        action {
-            replaceWith<Watches>()
-        }
-    }
-
-    val sightingButton = button("View Sightings") {
-        action {
-            replaceWith<Sightings>()
-        }
-    }
-
     override val root = vbox {
         hbox {
             label("Welcome to Animal Tracking, "
@@ -24,8 +11,17 @@ class Home: View("Home") {
         }
 
         hbox {
-            watchButton
-            sightingButton
+            button("View Watches") {
+                action {
+                    replaceWith<Watches>()
+                }
+            }
+
+            button("View Sightings") {
+                action {
+                    replaceWith<Sightings>()
+                }
+            }
         }
 
         button("Back") {
