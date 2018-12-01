@@ -39,6 +39,7 @@ object Sighting : Table() {
     val speciesID = integer("species_id").references(Species.speciesID)
     val observerID = integer("observer_id").references(Observer.observerID)
     val photo = blob("photo").nullable()
+    val watchID = integer("watch_id").references(Watch.watchID).nullable()
 }
 
 
