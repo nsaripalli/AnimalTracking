@@ -4,24 +4,26 @@ import tornadofx.*
 
 class CreateSighting : View("My View") {
     override val root = form {
-        fieldset("Personal Info") {
-            field("First Name") {
+        fieldset("Log sighting") {
+            field("Species Scientific name") {
                 textfield()
             }
-            field("Last Name") {
+            field("quantity") {
                 textfield()
             }
-            field("Birthday") {
-                datepicker()
-            }
-        }
-        fieldset("Contact") {
-            field("Phone") {
+            field("latitude") {
                 textfield()
             }
-            field("Email") {
+            field("longitude") {
                 textfield()
             }
+            field("notes") {
+                textfield()
+            }
+            field("photo") {
+                textfield()
+            }
+
         }
         button("Commit") {
             action { println("Wrote to database!")}

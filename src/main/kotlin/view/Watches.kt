@@ -1,7 +1,6 @@
 package view
 
 import tornadofx.*
-import controller.*
 import java.time.LocalDate
 import java.time.Period
 

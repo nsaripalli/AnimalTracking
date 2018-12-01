@@ -2,25 +2,26 @@ package view
 
 import tornadofx.*
 
-class CreateWatch : View("My View") {
+class CreateWatch : View("Create Watch Form") {
     override val root = form {
-        fieldset("Personal Info") {
-            field("First Name") {
+        fieldset("Log Watch") {
+            field("Species Scientific Name") {
                 textfield()
             }
-            field("Last Name") {
+            field("Latitude") {
                 textfield()
             }
-            field("Birthday") {
+            field("Longitude") {
+                textfield()
+            }
+            field("Radius") {
+                textfield()
+            }
+            field("Start Date") {
                 datepicker()
             }
-        }
-        fieldset("Contact") {
-            field("Phone") {
-                textfield()
-            }
-            field("Email") {
-                textfield()
+            field("End Date") {
+                datepicker()
             }
         }
         button("Commit") {
