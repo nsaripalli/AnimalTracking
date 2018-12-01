@@ -1,4 +1,4 @@
-package model
+package controller
 
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
@@ -30,6 +30,17 @@ object Watch : Table() {
     val scientistID = integer("scientist_id").references(Observer.observerID)
 }
 
+object Sighting : Table() {
+    val sightingID = integer("sighting_id").autoIncrement().primaryKey()
+    val quantity = integer("quantity").default(1)
+    val latitude = double("latitude")
+    val longitude = double("longitude")
+    val notes = varchar("notes", 500).nullable()
+    val speciesID = integer("species_id").references(Species.speciesID)
+    val observerID = integer("observer_id").references(Observer.observerID)
+    val photo = blob("photo").nullable()
+}
+
 
 fun main(args: Array<String>) {
     Database.connect(
@@ -41,3 +52,4 @@ fun main(args: Array<String>) {
 
 
 }
+
