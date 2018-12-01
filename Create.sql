@@ -91,10 +91,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`sighting` (
   `species_id` INT NOT NULL,
   `observer_id` INT NOT NULL,
   `photo` BLOB NULL,
+  `watch_id` INT NULL,
   PRIMARY KEY (`sighting_id`),
   UNIQUE INDEX `sighting_id_UNIQUE` (`sighting_id` ASC) VISIBLE,
   INDEX `fk_sighting_species1_idx` (`species_id` ASC) VISIBLE,
   INDEX `fk_sighting_observer1_idx` (`observer_id` ASC) VISIBLE,
+  INDEX `fk_sighting_watch1_idx` (`watch_id` ASC) VISIBLE,
   CONSTRAINT `fk_sighting_species1`
     FOREIGN KEY (`species_id`)
     REFERENCES `mydb`.`species` (`species_id`)
@@ -103,6 +105,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`sighting` (
   CONSTRAINT `fk_sighting_observer1`
     FOREIGN KEY (`observer_id`)
     REFERENCES `mydb`.`observer` (`observer_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_sighting_watch1`
+    FOREIGN KEY (`watch_id`)
+    REFERENCES `mydb`.`watch` (`watch_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
