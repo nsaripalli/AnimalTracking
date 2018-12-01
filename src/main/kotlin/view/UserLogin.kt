@@ -64,16 +64,3 @@ class UserLogin: View() {
     }
 }
 
-class Home: View() {
-    override val root = vbox {
-        hbox {
-            label("Welcome to Animal Tracking")
-        }
-
-        button("Back") {
-            action {
-                replaceWith<UserLogin>()
-            }
-        }
-    }
-}
