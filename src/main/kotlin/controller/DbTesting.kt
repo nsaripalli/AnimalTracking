@@ -6,6 +6,7 @@ import org.joda.time.DateTime
 import java.awt.Image
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.sql.Blob
 import javax.imageio.ImageIO
 import javax.sql.rowset.serial.SerialBlob
@@ -111,3 +112,6 @@ fun imageToBlob(image: BufferedImage): Blob {
 
     return SerialBlob(bytes)
 }
+
+fun loadImage(file: File): BufferedImage = ImageIO.read(file)
+
