@@ -3,7 +3,12 @@ package controller
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
 import org.joda.time.DateTime
+import java.awt.Image
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
 import java.sql.Blob
+import javax.imageio.ImageIO
+import javax.sql.rowset.serial.SerialBlob
 
 object SpeciesTable : Table() {
     val speciesID = integer("species_id").autoIncrement().primaryKey()
@@ -94,3 +99,15 @@ fun main(args: Array<String>) {
 
 }
 
+fun blobToImage(data: Blob): Image = ImageIO.read(data.binaryStream)
+
+fun imageToBlob(image: BufferedImage): Blob {
+
+    val byteOutputStream = ByteArrayOutputStream()
+
+    ImageIO.write(image, "jpg", byteOutputStream)
+
+    val bytes = byteOutputStream.toByteArray()
+
+    return SerialBlob(bytes)
+}
