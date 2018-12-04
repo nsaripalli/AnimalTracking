@@ -7,7 +7,9 @@ class Home: View("Home") {
         hbox {
             label("Welcome to Animal Tracking, "
             //TODO("insert users name")
+
             )
+            useMaxWidth = true
         }
 
         hbox {
