@@ -1,120 +1,50 @@
--- MySQL Workbench Forward Engineering
+DROP SCHEMA IF EXISTS tracker;
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+CREATE SCHEMA tracker;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `mydb` ;
+USE tracker;
 
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE TABLE IF NOT EXISTS species (
+  species_id      INT PRIMARY KEY AUTO_INCREMENT,
+  taxon           VARCHAR(100) NOT NULL,
+  common_name     VARCHAR(250),
+  scientific_name VARCHAR(250) NOT NULL UNIQUE
+);
 
--- -----------------------------------------------------
--- Table `mydb`.`species`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`species` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`species` (
-  `species_id` INT NOT NULL AUTO_INCREMENT,
-  `taxon` VARCHAR(100) NOT NULL,
-  `common_name` VARCHAR(250) NULL,
-  `scientific_name` VARCHAR(250) NOT NULL,
-  PRIMARY KEY (`species_id`),
-  UNIQUE INDEX `species_id_UNIQUE` (`species_id` ASC) VISIBLE)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS observer (
+  observer_id int PRIMARY KEY AUTO_INCREMENT,
+  name        varchar(150) NOT NULL,
+  email       varchar(150) NOT NULL,
+  phone       varchar(20),
+  scientist   boolean DEFAULT FALSE
+);
 
 
--- -----------------------------------------------------
--- Table `mydb`.`observer`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`observer` ;
+CREATE TABLE IF NOT EXISTS watch (
+  watch_id     int PRIMARY KEY AUTO_INCREMENT,
+  latitude     double   NOT NULL,
+  longitude    double   NOT NULL,
+  radius       double   NOT NULL DEFAULT 1.0,
+  start_date   datetime NOT NULL DEFAULT now(),
+  end_date     datetime,
+  species_id   int      NOT NULL,
+  scientist_id int      NOT NULL,
+  FOREIGN KEY (species_id) REFERENCES species (species_id),
+  FOREIGN KEY (scientist_id) REFERENCES observer (observer_id)
+);
 
-CREATE TABLE IF NOT EXISTS `mydb`.`observer` (
-  `observer_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(150) NOT NULL,
-  `email` VARCHAR(150) NOT NULL,
-  `phone` VARCHAR(20) NULL,
-  `scientist` TINYINT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`observer_id`),
-  UNIQUE INDEX `observer_id_UNIQUE` (`observer_id` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`watch`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`watch` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`watch` (
-  `watch_id` INT NOT NULL AUTO_INCREMENT,
-  `latitude` DOUBLE NOT NULL,
-  `longitude` DOUBLE NOT NULL,
-  `radius` DOUBLE NOT NULL DEFAULT 1,
-  `start_date` DATETIME NOT NULL DEFAULT NOW(),
-  `end_date` DATETIME NULL,
-  `species_id` INT NOT NULL,
-  `scientist_id` INT NOT NULL,
-  PRIMARY KEY (`watch_id`),
-  UNIQUE INDEX `watch_id_UNIQUE` (`watch_id` ASC) VISIBLE,
-  INDEX `fk_watch_species_idx` (`species_id` ASC) VISIBLE,
-  INDEX `fk_watch_observer1_idx` (`scientist_id` ASC) VISIBLE,
-  CONSTRAINT `fk_watch_species`
-    FOREIGN KEY (`species_id`)
-    REFERENCES `mydb`.`species` (`species_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_watch_observer1`
-    FOREIGN KEY (`scientist_id`)
-    REFERENCES `mydb`.`observer` (`observer_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`sighting`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`sighting` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`sighting` (
-  `sighting_id` INT NOT NULL AUTO_INCREMENT,
-  `quantity` INT NOT NULL DEFAULT 1,
-  `latitude` DOUBLE NOT NULL,
-  `longitude` DOUBLE NOT NULL,
-  `notes` VARCHAR(500) NULL,
-  `species_id` INT NOT NULL,
-  `observer_id` INT NOT NULL,
-  `photo` BLOB NULL,
-  `watch_id` INT NULL,
-  PRIMARY KEY (`sighting_id`),
-  UNIQUE INDEX `sighting_id_UNIQUE` (`sighting_id` ASC) VISIBLE,
-  INDEX `fk_sighting_species1_idx` (`species_id` ASC) VISIBLE,
-  INDEX `fk_sighting_observer1_idx` (`observer_id` ASC) VISIBLE,
-  INDEX `fk_sighting_watch1_idx` (`watch_id` ASC) VISIBLE,
-  CONSTRAINT `fk_sighting_species1`
-    FOREIGN KEY (`species_id`)
-    REFERENCES `mydb`.`species` (`species_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sighting_observer1`
-    FOREIGN KEY (`observer_id`)
-    REFERENCES `mydb`.`observer` (`observer_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_sighting_watch1`
-    FOREIGN KEY (`watch_id`)
-    REFERENCES `mydb`.`watch` (`watch_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+CREATE TABLE IF NOT EXISTS sighting (
+  sighting_id int PRIMARY KEY AUTO_INCREMENT,
+  quantity    int      NOT NULL DEFAULT 1,
+  latitude    double   NOT NULL,
+  longitude   double   NOT NULL,
+  notes       varchar(500),
+  species_id  int      NOT NULL,
+  observer_id int      NOT NULL,
+  photo       BLOB,
+  watch_id    int,
+  date        datetime NOT NULL DEFAULT NOW(),
+  FOREIGN KEY (species_id) REFERENCES species (species_id),
+  FOREIGN KEY (observer_id) REFERENCES observer (observer_id),
+  FOREIGN KEY (watch_id) REFERENCES watch (watch_id)
+);
