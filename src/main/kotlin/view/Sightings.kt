@@ -10,7 +10,7 @@ import java.time.Period
 val Sighting.commonName get() = this.species.commonName
 val Sighting.name get() = this.observer.name
 //TODO("Tanner look at this")
-// val Sighting.watchName get() = this.watch.watchID
+val Sighting.watchName get() = this.watch?.watchID
 
 class Sightings : View("Sightings") {
     class Person(val id: Int, val name: String, val birthday: LocalDate) {
@@ -51,7 +51,7 @@ class Sightings : View("Sightings") {
                 readonlyColumn("Notes", Sighting::notes)
                 readonlyColumn("Species", Sighting::commonName)
                 readonlyColumn("Observer", Sighting::name)
-                readonlyColumn("Watch", Sighting::watch)
+                readonlyColumn("Watch ID", Sighting::watchName)
             }
             //TODO("copy and pasted from Home.kt")
             button("Home") {
