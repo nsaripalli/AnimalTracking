@@ -1,5 +1,7 @@
 package view
 
+import controller.Watch
+import controller.watch1
 import tornadofx.*
 import java.time.LocalDate
 import java.time.Period
@@ -15,6 +17,9 @@ class Watches : View("My View") {
         Person(3,"Stuart Gills",LocalDate.of(1989,5,23)),
         Person(3,"Nicole Williams",LocalDate.of(1998,8,11))
     ).observable()
+    private val watches = listOf(
+        watch1
+    ).observable()
 
     override val root = hbox {
         vbox {
@@ -29,11 +34,15 @@ class Watches : View("My View") {
             }
 
             // select * from watch table query
-            tableview(persons) {
-                readonlyColumn("ID",Person::id)
-                readonlyColumn("Name", Person::name)
-                readonlyColumn("Birthday", Person::birthday)
-                readonlyColumn("Age",Person::age)
+            tableview(watches) {
+                readonlyColumn("ID", Watch::watchID)
+                readonlyColumn("Latitude", Watch::latitude)
+                readonlyColumn("Longitude", Watch::longitude)
+                readonlyColumn("Radius", Watch::radius)
+                readonlyColumn("Start", Watch::startDate)
+                readonlyColumn("End", Watch::endDate)
+                readonlyColumn("Species", Watch::species)
+                readonlyColumn("Scientist", Watch::scientist)
             }
             //TODO("copy and pasted from Home.kt")
             button("Home") {

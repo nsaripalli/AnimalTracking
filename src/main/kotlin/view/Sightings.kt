@@ -1,6 +1,8 @@
 package view
 
+import controller.Sighting
 import controller.Watch
+import controller.sighting1
 import controller.watch1
 import tornadofx.*
 import java.time.LocalDate
@@ -16,9 +18,8 @@ class Sightings : View("Sightings") {
         Person(3,"Stuart Gills", LocalDate.of(1989,5,23)),
         Person(3,"Nicole Williams", LocalDate.of(1998,8,11))
     ).observable()
-
-    private val watches = listOf(
-        watch1
+    private val sightings = listOf(
+        sighting1
     ).observable()
 
     override val root = hbox {
@@ -31,18 +32,27 @@ class Sightings : View("Sightings") {
                     }
                 }
             }
-
+//
+//            val sightingID: Int,
+//            val quantity: Int = 1,
+//            val latitude: Double,
+//            val longitude: Double,
+//            val notes: String?,
+//            val species: Species,
+//            val observer: Observer,
+//            val photo: Blob, //I dont know if blob is the right type, but it will work for now
+//            val watch: Watch?
+//            )
 
             // select * from watch table query
-            tableview(watches) {
-                readonlyColumn("ID", Watch::watchID)
-                readonlyColumn("Latitude", Watch::latitude)
-                readonlyColumn("Longitude", Watch::longitude)
-                readonlyColumn("Radius", Watch::radius)
-                readonlyColumn("Start", Watch::startDate)
-                readonlyColumn("End", Watch::endDate)
-                readonlyColumn("Species", Watch::species)
-                readonlyColumn("Scientist", Watch::scientist)
+            tableview(sightings) {
+                readonlyColumn("ID", Sighting::sightingID)
+                readonlyColumn("Latitude", Sighting::latitude)
+                readonlyColumn("Longitude", Sighting::longitude)
+                readonlyColumn("Notes", Sighting::notes)
+                readonlyColumn("Species", Sighting::species)
+                readonlyColumn("Observer", Sighting::observer)
+                readonlyColumn("Watch", Sighting::watch)
             }
             //TODO("copy and pasted from Home.kt")
             button("Home") {
