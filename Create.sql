@@ -11,6 +11,11 @@ CREATE TABLE IF NOT EXISTS species (
   scientific_name VARCHAR(250) NOT NULL UNIQUE
 );
 
+insert into species (taxon, common_name, scientific_name)
+values ("small bird", "red bird", "cardinal"),
+       ("big bird", "yellow bird", "fromsesame")
+       ;
+
 CREATE TABLE IF NOT EXISTS observer (
   observer_id int PRIMARY KEY AUTO_INCREMENT,
   name        varchar(150) NOT NULL,
@@ -18,6 +23,14 @@ CREATE TABLE IF NOT EXISTS observer (
   phone       varchar(20),
   scientist   boolean DEFAULT FALSE
 );
+
+insert into observer (name, email, phone, scientist)
+values ('ethan', '17watsoeth@gmail.com', '111-111-1111', true),
+       ('tanner', 'tanner@gmail.com', '222-222-2222', true),
+       ('nithin', 'nithin@yahoo.com', '333-333-3333', true),
+       ('jeffrey' 'jeff@gmail.com', '444-444-4444', true),
+       ('rebeccaworker', 'guy@rebeccas.com', '555-555-5555', false)
+       ;
 
 
 CREATE TABLE IF NOT EXISTS watch (
@@ -32,6 +45,11 @@ CREATE TABLE IF NOT EXISTS watch (
   FOREIGN KEY (species_id) REFERENCES species (species_id),
   FOREIGN KEY (scientist_id) REFERENCES observer (observer_id)
 );
+
+insert into watch (latitude, longitude, radius, start_date, end_date, species_id, scientist_id)
+values (10.0, 10.0, 1, '20181201 10:00:00 AM', '20181205 10:00:00 AM', 1, 1) -- ethan creates a watch for small bird.
+;
+
 
 CREATE TABLE IF NOT EXISTS sighting (
   sighting_id int PRIMARY KEY AUTO_INCREMENT,

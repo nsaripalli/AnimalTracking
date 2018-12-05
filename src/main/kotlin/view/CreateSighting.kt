@@ -28,5 +28,10 @@ class CreateSighting : View("My View") {
         button("Commit") {
             action { println("Wrote to database!")}
         }
+        button("Home") {
+            action {
+                replaceWith<Home>()
+            }
+        }
     }
 }

@@ -27,5 +27,10 @@ class CreateWatch : View("Create Watch Form") {
         button("Commit") {
             action { println("Wrote to database!")}
         }
+        button("Home") {
+            action {
+                replaceWith<Home>()
+            }
+        }
     }
 }
