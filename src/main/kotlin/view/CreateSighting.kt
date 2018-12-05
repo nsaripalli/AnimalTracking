@@ -4,6 +4,9 @@ import tornadofx.*
 
 class CreateSighting : View("My View") {
     override val root = form {
+        style {
+            backgroundColor = multi(javafx.scene.paint.Paint.valueOf("#c9daf8ff"))
+        }
         fieldset("Log sighting") {
             addClass(MyStyle.regularFont)
             field("Species Scientific name") {
@@ -43,7 +46,7 @@ class CreateSighting : View("My View") {
             }
 
         }
-        button("Commit") {
+        button("Submit") {
             addClass(MyStyle.regularFont)
             action { println("Wrote to database!")}
         }

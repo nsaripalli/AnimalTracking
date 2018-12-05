@@ -4,18 +4,22 @@ import javafx.geometry.Insets
 import javafx.scene.layout.Priority
 import javafx.scene.text.FontWeight
 import tornadofx.*
+import java.awt.Color
+import java.awt.Paint
 
 class UserLogin : View() {
 
     // vbox = vertical, hbox = horizontal
     override val root = vbox {
+        style {
+            backgroundColor = multi(javafx.scene.paint.Paint.valueOf("#c9daf8ff"))
+        }
         vbox {
             vboxConstraints {
                 marginLeft = 20.0
             }
             hbox {
                 label("User Login Page") {
-
                     style {
                         fontWeight = FontWeight.EXTRA_BOLD
                         fontSize = 56.px

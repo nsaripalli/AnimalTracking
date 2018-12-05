@@ -10,8 +10,11 @@ class MainApp: App(UserLogin::class, MyStyle::class) {
         stage.isResizable = false
         stage.width = 600.0
         stage.height = 600.0
+
     }
     init {
         reloadStylesheetsOnFocus()
+
+
     }
 }

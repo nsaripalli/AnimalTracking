@@ -22,6 +22,9 @@ class Watches : View("My View") {
     ).observable()
 
     override val root = hbox {
+        style {
+            backgroundColor = multi(javafx.scene.paint.Paint.valueOf("#c9daf8ff"))
+        }
         vbox {
             hbox {
                 //TODO("only allow if a scientist.")

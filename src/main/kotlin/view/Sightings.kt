@@ -1,5 +1,6 @@
 package view
 
+import controller.Observer
 import controller.Sighting
 import controller.sighting1
 import tornadofx.*
@@ -7,6 +8,9 @@ import java.time.LocalDate
 import java.time.Period
 
 val Sighting.commonName get() = this.species.commonName
+val Sighting.name get() = this.observer.name
+//TODO("Tanner look at this")
+// val Sighting.watchName get() = this.watch.watchID
 
 class Sightings : View("Sightings") {
     class Person(val id: Int, val name: String, val birthday: LocalDate) {
@@ -24,6 +28,9 @@ class Sightings : View("Sightings") {
     ).observable()
 
     override val root = hbox {
+        style {
+            backgroundColor = multi(javafx.scene.paint.Paint.valueOf("#c9daf8ff"))
+        }
         vbox {
             hbox {
                 //TODO("only allow if a scientist.")
@@ -43,7 +50,7 @@ class Sightings : View("Sightings") {
                 readonlyColumn("Longitude", Sighting::longitude)
                 readonlyColumn("Notes", Sighting::notes)
                 readonlyColumn("Species", Sighting::commonName)
-                readonlyColumn("Observer", Sighting::observer)
+                readonlyColumn("Observer", Sighting::name)
                 readonlyColumn("Watch", Sighting::watch)
             }
             //TODO("copy and pasted from Home.kt")

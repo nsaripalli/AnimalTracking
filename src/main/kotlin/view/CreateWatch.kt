@@ -4,6 +4,9 @@ import tornadofx.*
 
 class CreateWatch : View("Create Watch Form") {
     override val root = form {
+        style {
+            backgroundColor = multi(javafx.scene.paint.Paint.valueOf("#c9daf8ff"))
+        }
         fieldset("Log Watch") {
             addClass(MyStyle.regularFont)
             field("Species Scientific Name") {
@@ -43,7 +46,7 @@ class CreateWatch : View("Create Watch Form") {
                 }
             }
         }
-        button("Commit") {
+        button("Submit") {
             addClass(MyStyle.regularFont)
             action { println("Wrote to database!")}
         }
