@@ -6,6 +6,7 @@ import org.joda.time.DateTime
 import java.awt.Image
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.sql.Blob
 import javax.imageio.ImageIO
 import javax.sql.rowset.serial.SerialBlob
@@ -91,11 +92,11 @@ data class Sighting(
     val notes: String?,
     val species: Species,
     val observer: Observer,
-    //val photo: Blob, //I dont know if blob is the right type, but it will work for now
-    val watch: Watch?
+    val watch: Watch?,
+    val photo: Blob? = null//I dont know if blob is the right type, but it will work for now
 )
 
-val sighting1 = Sighting(1, 1, 10.0, 10.0,"im a bird mf cacaw, cacaw", bird1, observer2, watch1)
+val sighting1 = Sighting(1, 1, 10.0, 10.0, "im a bird mf cacaw, cacaw", bird1, observer2, watch1)
 
 fun main(args: Array<String>) {
     Database.connect(
@@ -120,3 +121,6 @@ fun imageToBlob(image: BufferedImage): Blob {
 
     return SerialBlob(bytes)
 }
+
+fun loadImage(file: File): BufferedImage = ImageIO.read(file)
+
