@@ -32,17 +32,6 @@ class Sightings : View("Sightings") {
                     }
                 }
             }
-//
-//            val sightingID: Int,
-//            val quantity: Int = 1,
-//            val latitude: Double,
-//            val longitude: Double,
-//            val notes: String?,
-//            val species: Species,
-//            val observer: Observer,
-//            val photo: Blob, //I dont know if blob is the right type, but it will work for now
-//            val watch: Watch?
-//            )
 
             // select * from watch table query
             tableview(sightings) {
