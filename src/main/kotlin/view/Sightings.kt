@@ -1,5 +1,9 @@
 package view
 
+import controller.Sighting
+import controller.Watch
+import controller.sighting1
+import controller.watch1
 import tornadofx.*
 import java.time.LocalDate
 import java.time.Period
@@ -14,6 +18,9 @@ class Sightings : View("Sightings") {
         Person(3,"Stuart Gills", LocalDate.of(1989,5,23)),
         Person(3,"Nicole Williams", LocalDate.of(1998,8,11))
     ).observable()
+    private val sightings = listOf(
+        sighting1
+    ).observable()
 
     override val root = hbox {
         vbox {
@@ -25,13 +32,27 @@ class Sightings : View("Sightings") {
                     }
                 }
             }
+//
+//            val sightingID: Int,
+//            val quantity: Int = 1,
+//            val latitude: Double,
+//            val longitude: Double,
+//            val notes: String?,
+//            val species: Species,
+//            val observer: Observer,
+//            val photo: Blob, //I dont know if blob is the right type, but it will work for now
+//            val watch: Watch?
+//            )
 
             // select * from watch table query
-            tableview(persons) {
-                readonlyColumn("ID",Person::id)
-                readonlyColumn("Name", Person::name)
-                readonlyColumn("Birthday", Person::birthday)
-                readonlyColumn("Age",Person::age)
+            tableview(sightings) {
+                readonlyColumn("ID", Sighting::sightingID)
+                readonlyColumn("Latitude", Sighting::latitude)
+                readonlyColumn("Longitude", Sighting::longitude)
+                readonlyColumn("Notes", Sighting::notes)
+                readonlyColumn("Species", Sighting::species)
+                readonlyColumn("Observer", Sighting::observer)
+                readonlyColumn("Watch", Sighting::watch)
             }
             //TODO("copy and pasted from Home.kt")
             button("Home") {

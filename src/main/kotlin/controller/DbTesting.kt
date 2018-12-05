@@ -77,6 +77,13 @@ data class Watch(
     val scientist: Observer
 )
 
+val bird1 = Species(1, "big big", "blue bird", "sciencey bird??? lol")
+val observer1 = Observer(1, "Dr. Mario", "smashbros@friday.com", "111-111-1111", true)
+val observer2 = Observer(1, "indiana jones", "ihatebeing@teacher.com", "222-222-2222", true)
+
+
+val watch1 = Watch(1, 10.0, 10.0, 1.0, DateTime.now(), DateTime.now(), bird1, observer1)
+
 data class Sighting(
     val sightingID: Int,
     val quantity: Int = 1,
@@ -85,9 +92,11 @@ data class Sighting(
     val notes: String?,
     val species: Species,
     val observer: Observer,
-    val photo: Blob, //I dont know if blob is the right type, but it will work for now
+    //val photo: Blob, //I dont know if blob is the right type, but it will work for now
     val watch: Watch?
 )
+
+val sighting1 = Sighting(1, 1, 10.0, 10.0,"im a bird mf cacaw, cacaw", bird1, observer2, watch1)
 
 fun main(args: Array<String>) {
     Database.connect(
