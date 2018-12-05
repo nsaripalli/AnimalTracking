@@ -20,8 +20,10 @@ class UserLogin : View() {
                         fontWeight = FontWeight.EXTRA_BOLD
                         fontSize = 56.px
                         //TODO("change font to avenir")
+                        addClass(MyStyle.regularFont)
                         // somehow increase font?
                     }
+
                 }
                 vboxConstraints {
                     marginBottom = 20.0
@@ -38,8 +40,11 @@ class UserLogin : View() {
                     hbox {
                         label("Email") {
                             hboxConstraints { marginRight = 10.0}
+                            addClass(MyStyle.regularFont)
                         }
-                        textfield()
+                        textfield() {
+                            addClass(MyStyle.regularFont)
+                        }
                         vboxConstraints {
                             marginBottom = 20.0
                         }
@@ -47,8 +52,11 @@ class UserLogin : View() {
                     hbox {
                         label("Full Name:") {
                             hboxConstraints { marginRight = 10.0}
+                            addClass(MyStyle.regularFont)
                         }
-                        textfield()
+                        textfield() {
+                            addClass(MyStyle.regularFont)
+                        }
                         vboxConstraints {
                             marginBottom = 20.0
                         }
@@ -56,8 +64,11 @@ class UserLogin : View() {
                     hbox {
                         label("Optional Phone Number") {
                             hboxConstraints { marginRight = 10.0}
+                            addClass(MyStyle.regularFont)
                         }
-                        textfield()
+                        textfield() {
+                            addClass(MyStyle.regularFont)
+                        }
                         vboxConstraints {
                             marginBottom = 20.0
                         }
@@ -65,6 +76,7 @@ class UserLogin : View() {
                     hbox {
                         label("Scientist?") {
                             hboxConstraints { marginRight = 10.0}
+                            addClass(MyStyle.regularFont)
                         }
                         checkbox { }
                         vboxConstraints {
@@ -81,6 +93,7 @@ class UserLogin : View() {
                                 marginBottom = 20.0
                             }
                         }
+                        addClass(MyStyle.regularFont)
                     }
                 }
                 // login existing user
@@ -91,13 +104,17 @@ class UserLogin : View() {
                     hbox {
                         label("Email") {
                             hboxConstraints { marginRight = 10.0}
+                            addClass(MyStyle.regularFont)
                         }
-                        textfield()
+                        textfield() {
+                            addClass(MyStyle.regularFont)
+                        }
                         vboxConstraints {
                             marginBottom = 20.0
                         }
                     }
                     button("Login") {
+                        addClass(MyStyle.regularFont)
                         action {
                             //TODO("handle login")
                             replaceWith<Home>()

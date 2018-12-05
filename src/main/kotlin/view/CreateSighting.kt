@@ -5,30 +5,50 @@ import tornadofx.*
 class CreateSighting : View("My View") {
     override val root = form {
         fieldset("Log sighting") {
+            addClass(MyStyle.regularFont)
             field("Species Scientific name") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("quantity") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("latitude") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("longitude") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)}
             }
             field("notes") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("photo") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
 
         }
         button("Commit") {
+            addClass(MyStyle.regularFont)
             action { println("Wrote to database!")}
         }
         button("Home") {
+            addClass(MyStyle.regularFont)
             action {
                 replaceWith<Home>()
             }

@@ -5,29 +5,50 @@ import tornadofx.*
 class CreateWatch : View("Create Watch Form") {
     override val root = form {
         fieldset("Log Watch") {
+            addClass(MyStyle.regularFont)
             field("Species Scientific Name") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("Latitude") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("Longitude") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("Radius") {
-                textfield()
+                addClass(MyStyle.regularFont)
+                textfield() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("Start Date") {
-                datepicker()
+                addClass(MyStyle.regularFont)
+                datepicker() {
+                    addClass(MyStyle.regularFont)
+                }
             }
             field("End Date") {
-                datepicker()
+                addClass(MyStyle.regularFont)
+                datepicker() {
+                    addClass(MyStyle.regularFont)
+                }
             }
         }
         button("Commit") {
+            addClass(MyStyle.regularFont)
             action { println("Wrote to database!")}
         }
         button("Home") {
+            addClass(MyStyle.regularFont)
             action {
                 replaceWith<Home>()
             }

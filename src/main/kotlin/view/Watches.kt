@@ -26,6 +26,7 @@ class Watches : View("My View") {
             hbox {
                 //TODO("only allow if a scientist.")
                 button("Create Watch") {
+                    addClass(MyStyle.regularFont)
                     action {
                         // go to create watch form
                         replaceWith<CreateWatch>()
@@ -35,6 +36,7 @@ class Watches : View("My View") {
 
             // select * from watch table query
             tableview(watches) {
+                addClass(MyStyle.regularFont)
                 readonlyColumn("ID", Watch::watchID)
                 readonlyColumn("Latitude", Watch::latitude)
                 readonlyColumn("Longitude", Watch::longitude)
@@ -46,6 +48,7 @@ class Watches : View("My View") {
             }
             //TODO("copy and pasted from Home.kt")
             button("Home") {
+                addClass(MyStyle.regularFont)
                 action {
                     replaceWith<Home>()
                 }

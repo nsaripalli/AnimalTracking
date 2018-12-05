@@ -27,6 +27,7 @@ class Sightings : View("Sightings") {
             hbox {
                 //TODO("only allow if a scientist.")
                 button("Create Sighting") {
+                    addClass(MyStyle.regularFont)
                     action {
                         replaceWith<CreateSighting>()
                     }
@@ -35,6 +36,7 @@ class Sightings : View("Sightings") {
 
             // select * from watch table query
             tableview(sightings) {
+                addClass(MyStyle.regularFont)
                 readonlyColumn("ID", Sighting::sightingID)
                 readonlyColumn("Latitude", Sighting::latitude)
                 readonlyColumn("Longitude", Sighting::longitude)
@@ -45,6 +47,7 @@ class Sightings : View("Sightings") {
             }
             //TODO("copy and pasted from Home.kt")
             button("Home") {
+                addClass(MyStyle.regularFont)
                 action {
                     replaceWith<Home>()
                 }
