@@ -1,7 +1,7 @@
 package controller
 
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
 import java.awt.Image
 import java.awt.image.BufferedImage
@@ -77,6 +77,7 @@ data class Watch(
     val scientist: Observer
 )
 
+
 val bird1 = Species(1, "big big", "blue bird", "sciencey bird??? lol")
 val observer1 = Observer(1, "Dr. Mario", "smashbros@friday.com", "111-111-1111", true)
 val observer2 = Observer(1, "indiana jones", "ihatebeing@teacher.com", "222-222-2222", true)
@@ -98,16 +99,92 @@ data class Sighting(
 
 val sighting1 = Sighting(1, 1, 10.0, 10.0, "im a bird mf cacaw, cacaw", bird1, observer2, watch1)
 
-fun main(args: Array<String>) {
-    Database.connect(
-        url = "jdbc:mysql://35.231.160.160:3306",
-        driver = "com.mysql.jdbc.Driver",
-        user = "root",
-        password = "&3&!%M4SBD\$w9tqMSNT3"
-    )
+val database = Database.connect(
+    url = "jdbc:mysql://35.231.160.160:3306",
+    driver = "com.mysql.jdbc.Driver",
+    user = "root",
+    password = "&3&!%M4SBD\$w9tqMSNT3"
+)
 
+private fun sightingQuery(): List<ResultRow> {
+    print("Success")
 
+    var results: List<ResultRow> = mutableListOf()
+
+    transaction(database) {
+
+        results = SightingTable.leftJoin(
+            otherTable = SpeciesTable,
+            onColumn = { SightingTable.speciesID },
+            otherColumn = { SpeciesTable.speciesID }
+        ).leftJoin(
+            otherTable = ObserverTable,
+            onColumn = { SightingTable.observerID },
+            otherColumn = { ObserverTable.observerID }
+        ).leftJoin(
+            otherTable = WatchTable,
+            onColumn = { SightingTable.watchID },
+            otherColumn = { WatchTable.watchID }
+        ).selectAll().toList()
+    }
+
+    return results
 }
+
+
+private fun speciesFromID(speciesID: Int) = SpeciesTable.select { SpeciesTable.speciesID eq speciesID }
+
+private fun observerFromID(observerID: Int) = ObserverTable.select { ObserverTable.observerID eq observerID }
+
+private fun resultToSpecies(result: ResultRow) = Species(
+    speciesID = result[SpeciesTable.speciesID],
+    taxon = result[SpeciesTable.taxon],
+    commonName = result[SpeciesTable.commonName],
+    scientificName = result[SpeciesTable.scientificName]
+)
+
+private fun resultToObserver(result: ResultRow) = Observer(
+    observerID = result[ObserverTable.observerID],
+    name = result[ObserverTable.name],
+    email = result[ObserverTable.email],
+    phone = result[ObserverTable.phone],
+    isScientist = result[ObserverTable.isScientist]
+)
+
+private fun resultToWatch(result: ResultRow) = Watch(
+    watchID = result[WatchTable.watchID],
+    latitude = result[WatchTable.latitude],
+    longitude = result[WatchTable.longitude],
+    radius = result[WatchTable.radius],
+    startDate = result[WatchTable.startDate],
+    endDate = result[WatchTable.endDate],
+    species = resultToSpecies(speciesFromID(result[WatchTable.speciesID]).single()),
+    scientist = resultToObserver(observerFromID(result[WatchTable.scientistID]).single())
+)
+
+
+private fun resultToSighting(result: ResultRow): Sighting {
+    val species = resultToSpecies(result)
+    val observer = resultToObserver(result)
+    val watch = if (result.hasValue(WatchTable.watchID)) resultToWatch(result) else null
+
+    return Sighting(
+        sightingID = result[SightingTable.sightingID],
+        quantity = result[SightingTable.quantity],
+        latitude = result[SightingTable.latitude],
+        longitude = result[SightingTable.longitude],
+        notes = result[SightingTable.notes],
+        species = species,
+        observer = observer,
+        watch = watch
+    )
+}
+
+fun main(args: Array<String>) {
+    sightingList().forEach(::println)
+}
+
+fun sightingList(): List<Sighting> = sightingQuery().map { resultToSighting(it) }.toList()
 
 fun blobToImage(data: Blob): Image = ImageIO.read(data.binaryStream)
 
