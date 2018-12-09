@@ -1,11 +1,11 @@
 package view
 
+import controller.Observer
 import javafx.scene.layout.Priority
 import javafx.scene.text.FontWeight
-import javafx.scene.text.TextAlignment
 import tornadofx.*
 
-class Home: View("Home") {
+class Home(private val user: Observer? = null) : View("Home") {
     override val root = vbox {
         style {
             backgroundColor = multi(javafx.scene.paint.Paint.valueOf("#c9daf8ff"))
@@ -18,15 +18,12 @@ class Home: View("Home") {
             }
             hgrow = Priority.ALWAYS
             label("Welcome to Animal Tracking"
-            //TODO("insert users name")
 
             ) {
                 style {
                     fontWeight = FontWeight.EXTRA_BOLD
                     fontSize = 38.px
-                    //TODO("change font to avenir")
                     addClass(MyStyle.regularFont)
-                    // somehow increase font?
 
                 }
             }
@@ -41,7 +38,7 @@ class Home: View("Home") {
             button("View Watches") {
                 addClass(MyStyle.regularFont)
                 action {
-                    replaceWith<Watches>()
+                    replaceWith(Watches(user!!))
                 }
             }
 
@@ -51,7 +48,7 @@ class Home: View("Home") {
                 }
                 addClass(MyStyle.regularFont)
                 action {
-                    replaceWith<Sightings>()
+                    replaceWith(Sightings(user!!))
                 }
             }
         }

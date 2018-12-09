@@ -1,25 +1,11 @@
 package view
 
+import controller.Observer
 import controller.Watch
-import controller.watch1
+import controller.watchList
 import tornadofx.*
-import java.time.LocalDate
-import java.time.Period
 
-class Watches : View("My View") {
-
-    class Person(val id: Int, val name: String, val birthday: LocalDate) {
-        val age: Int get() = Period.between(birthday, LocalDate.now()).years
-    }
-    private val persons = listOf(
-        Person(1,"Samantha Stuart",LocalDate.of(1981,12,4)),
-        Person(2,"Tom Marks",LocalDate.of(2001,1,23)),
-        Person(3,"Stuart Gills",LocalDate.of(1989,5,23)),
-        Person(3,"Nicole Williams",LocalDate.of(1998,8,11))
-    ).observable()
-    private val watches = listOf(
-        watch1
-    ).observable()
+class Watches(private val user: Observer) : View("My View") {
 
     override val root = hbox {
         style {
@@ -27,18 +13,17 @@ class Watches : View("My View") {
         }
         vbox {
             hbox {
-                //TODO("only allow if a scientist.")
-                button("Create Watch") {
-                    addClass(MyStyle.regularFont)
-                    action {
-                        // go to create watch form
-                        replaceWith<CreateWatch>()
+                if (user.isScientist) {
+                    button("Create Watch") {
+                        addClass(MyStyle.regularFont)
+                        action {
+                            replaceWith<CreateWatch>()
+                        }
                     }
                 }
             }
 
-            // select * from watch table query
-            tableview(watches) {
+            tableview(watchList().observable()) {
                 addClass(MyStyle.regularFont)
                 readonlyColumn("ID", Watch::watchID)
                 readonlyColumn("Latitude", Watch::latitude)
@@ -49,11 +34,10 @@ class Watches : View("My View") {
                 readonlyColumn("Species", Watch::species)
                 readonlyColumn("Scientist", Watch::scientist)
             }
-            //TODO("copy and pasted from Home.kt")
             button("Home") {
                 addClass(MyStyle.regularFont)
                 action {
-                    replaceWith<Home>()
+                    replaceWith(Home(user))
                 }
             }
         }

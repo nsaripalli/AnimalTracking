@@ -2,30 +2,15 @@ package view
 
 import controller.Observer
 import controller.Sighting
-import controller.sighting1
+import controller.sightingList
 import tornadofx.*
-import java.time.LocalDate
-import java.time.Period
 
-val Sighting.commonName get() = this.species.commonName
-val Sighting.name get() = this.observer.name
-//TODO("Tanner look at this")
-val Sighting.watchName get() = this.watch?.watchID
+private val Sighting.commonName get() = this.species.commonName
+private val Sighting.name get() = this.observer.name
+private val Sighting.watchName get() = this.watch?.watchID
 
-class Sightings : View("Sightings") {
-    class Person(val id: Int, val name: String, val birthday: LocalDate) {
-        val age: Int get() = Period.between(birthday, LocalDate.now()).years
-    }
+class Sightings(private val user: Observer) : View("Sightings") {
 
-    private val persons = listOf(
-        Person(1, "Samantha Stuart", LocalDate.of(1981, 12, 4)),
-        Person(2, "Tom Marks", LocalDate.of(2001, 1, 23)),
-        Person(3, "Stuart Gills", LocalDate.of(1989, 5, 23)),
-        Person(3, "Nicole Williams", LocalDate.of(1998, 8, 11))
-    ).observable()
-    private val sightings = listOf(
-        sighting1
-    ).observable()
 
     override val root = hbox {
         style {
@@ -33,31 +18,32 @@ class Sightings : View("Sightings") {
         }
         vbox {
             hbox {
-                //TODO("only allow if a scientist.")
-                button("Create Sighting") {
-                    addClass(MyStyle.regularFont)
-                    action {
-                        replaceWith<CreateSighting>()
+                if (user.isScientist) {
+                    button("Create Sighting") {
+                        addClass(MyStyle.regularFont)
+                        action {
+                            replaceWith<CreateSighting>()
+                        }
                     }
                 }
             }
 
             // select * from watch table query
-            tableview(sightings) {
+            tableview(sightingList().observable()) {
                 addClass(MyStyle.regularFont)
                 readonlyColumn("ID", Sighting::sightingID)
+                readonlyColumn("Date", Sighting::date)
                 readonlyColumn("Latitude", Sighting::latitude)
                 readonlyColumn("Longitude", Sighting::longitude)
-                readonlyColumn("Notes", Sighting::notes)
                 readonlyColumn("Species", Sighting::commonName)
+                readonlyColumn("Notes", Sighting::notes)
                 readonlyColumn("Observer", Sighting::name)
                 readonlyColumn("Watch ID", Sighting::watchName)
             }
-            //TODO("copy and pasted from Home.kt")
             button("Home") {
                 addClass(MyStyle.regularFont)
                 action {
-                    replaceWith<Home>()
+                    replaceWith(Home(user))
                 }
             }
         }
