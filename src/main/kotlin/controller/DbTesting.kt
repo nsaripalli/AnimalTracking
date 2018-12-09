@@ -99,12 +99,17 @@ data class Sighting(
 
 val sighting1 = Sighting(1, 1, 10.0, 10.0, "im a bird mf cacaw, cacaw", bird1, observer2, watch1)
 
-val database = Database.connect(
-    url = "jdbc:mysql://35.231.160.160:3306",
-    driver = "com.mysql.jdbc.Driver",
-    user = "root",
-    password = "&3&!%M4SBD\$w9tqMSNT3"
-)
+val database by lazy {
+    Database.connect(
+        url = "jdbc:mysql://35.231.160.160:3306",
+        driver = "com.mysql.jdbc.Driver",
+        user = "root",
+        password = "&3&!%M4SBD\$w9tqMSNT3",
+        setupConnection = { connection ->
+            connection.schema = "tracker"
+        }
+    )
+}
 
 private fun sightingQuery(): List<ResultRow> {
     print("Success")
@@ -112,7 +117,6 @@ private fun sightingQuery(): List<ResultRow> {
     var results: List<ResultRow> = mutableListOf()
 
     transaction(database) {
-
         results = SightingTable.leftJoin(
             otherTable = SpeciesTable,
             onColumn = { SightingTable.speciesID },
