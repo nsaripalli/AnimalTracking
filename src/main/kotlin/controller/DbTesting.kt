@@ -117,6 +117,8 @@ private fun sightingQuery(): List<ResultRow> {
     var results: List<ResultRow> = mutableListOf()
 
     transaction(database) {
+//        TODO is this the issue?
+        SchemaUtils.create(SightingTable, SpeciesTable, ObserverTable, WatchTable)
         results = SightingTable.leftJoin(
             otherTable = SpeciesTable,
             onColumn = { SightingTable.speciesID },
@@ -130,6 +132,7 @@ private fun sightingQuery(): List<ResultRow> {
             onColumn = { SightingTable.watchID },
             otherColumn = { WatchTable.watchID }
         ).selectAll().toList()
+        SchemaUtils.drop(SightingTable, SpeciesTable, ObserverTable, WatchTable)
     }
 
     return results
